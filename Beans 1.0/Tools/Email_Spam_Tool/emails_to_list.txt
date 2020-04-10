@@ -1,0 +1,2 @@
+victim0@victimdomain0.com
+victim1@victimdomain1.com

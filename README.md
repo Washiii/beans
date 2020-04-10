@@ -5,7 +5,7 @@ Some tools i've made to pas the time
 ## Usage
 
 ```
-cd Beans
+cd "Beans 1.0"
 python3 bean.py
 ```
 

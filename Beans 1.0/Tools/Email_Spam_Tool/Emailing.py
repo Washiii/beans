@@ -304,7 +304,7 @@ def main():
 	open_text()
 	create_cgmail()
 	create_crambler()
-	create_cyahoo
+	create_cyahoo()
 	contacts_states = get_contacts()
 
 	try:

@@ -9,58 +9,132 @@ from Tools.Email_Spam_Tool.msg_create import msg_create
 running = True
 rand = 0
 
-try:
-	print('Open the message file...')
-	message = open('Tools/Email_Spam_Tool/text_message.txt', mode='r', encoding='utf-8')
-	body = str(message)
-	print('Done...')
-	
-except Exception as e:
-	print('No text message on path, do you want to conitue?')
-	awnser = input('y/N: ')
-	
-	if awnser == 'y' or awnser == 'Y':
-		pass
-		
-	elif awnser == '' or awnser == 'n' or awnser == 'N':
-		sys.exit(0)
-		
-	else:
-		print('Invalid awnser.')
-		sys.exit(0)
 
-try:				#Create the SMTP with the rambler server
+def create_crambler():
 	global s_rambler
-	print("Creating the SMTP rambler connection")
-	s_rambler = smtplib.SMTP(host='smtp.rambler.ru', port=587)
-	print('Conection in rambler done!!\n')
 
-except  Exception as e:
-	print("Error on SMTP connection (rambler): {}".format(e))		#Error detect and print
-	sys.exit(0)
-	
-	
-try:				#Create the SMTP with the gmail server
+	try:				#Create the SMTP with the rambler server
+		print("Creating the SMTP rambler connection")
+		s_rambler = smtplib.SMTP(host='smtp.rambler.ru', port=587)
+		print('Conection in rambler done!!\n')
+
+	except  Exception as e:
+		print("Error on SMTP connection (rambler): {}".format(e))		#Error detect and print
+		sys.exit(0)
+		
+def create_cgmail():
 	global s_gmail
-	print("Creating the SMTP gmail connection")
-	s_gmail = smtplib.SMTP(host='smtp.gmail.com', port=587)
-	print('Conection in gmail done!!\n')
+	try:				#Create the SMTP with the gmail server
+		print("Creating the SMTP gmail connection")
+		s_gmail = smtplib.SMTP(host='smtp.gmail.com', port=587)
+		print('Conection in gmail done!!\n')
 
-except  Exception as e:
-	print("Error on SMTP connection (gmail): {}".format(e))			#Error detect and print
-	sys.exit(0)
-	
-	
-try:
+	except  Exception as e:
+		print("Error on SMTP connection (gmail): {}".format(e))			#Error detect and print
+		sys.exit(0)
+			
+def create_cyahoo():
 	global s_yahoo
-	print("Creating the SMTP yahoo connection")
-	s_yahoo = smtplib.SMTP(host="smtp.mail.yahoo.com", port=587)
-	print("Conecition in yahoo done!!\n")
+	try:
+		print("Creating the SMTP yahoo connection")
+		s_yahoo = smtplib.SMTP(host="smtp.mail.yahoo.com", port=587)
+		print("Conecition in yahoo done!!\n")
 
-except Exception as e:
-	print("Error on SMTP connecition (yahoo): {}".format(e))
-	sys.exit(0)
+	except Exception as e:
+		print("Error on SMTP connecition (yahoo): {}".format(e))
+		sys.exit(0)
 
+def login_rambler():
+	try:
+		sleep(wait)											#Wait the wait time
+		s_rambler.connect(host='smtp.rambler.ru', port=587)
+		s_rambler.ehlo()
+		s_rambler.starttls()
+		s_rambler.ehlo()
+		s_rambler.login(emailw, passw)						#Try to login
+		print("Login succefful in {}".format(emailw))		#If login sucefull print this
+
+		try:
+			for j in range(0, len(emails_to)):				#If login sucefful try to send the email
+				email_to_ = emails_to[j]
+				send_email_rambler(emailw, email_to_)
+				sleep(wait)									#After send (or not) wait the wait time again
+
+		except Exception as error:
+			print("Error on email create or send, because: {}".format(error))
+							
+
+	except Exception as e:
+		print("Fail on login in {} because {}".format(emailw, e))	#If login fails print that and continue
+						
+def login_gmail():
+	try:
+		sleep(wait)											#Same thing than rambler
+		s_gmail.connect(host='smtp.gmail.com', port=587)
+		s_gmail.ehlo()
+		s_gmail.starttls()
+		s_gmail.ehlo()
+		s_gmail.login(emailw, passw)
+
+		print("Login succefful in {}".format(emailw))
+						
+		try:
+			for k in range(0, len(emails_to)):
+				email_to_ = emails_to[k]
+				send_email_gmail(emailw, email_to_)
+				sleep(wait)
+		except Exception as error:
+			print("Error on email create or send, because: {}".format(error))
+								
+
+	except Exception as e:
+		print("Fail on login in {} because {}".format(emailw, e))
+		pass
+						
+def login_yahoo():
+	try:
+		sleep(wait)
+		s_yahoo.connect(host="smtp.mail.yahoo.com", port=587)
+		s_yahoo.ehlo()
+		s_yahoo.starttls()
+		s_yahoo.ehlo()
+		s_yahoo.login(emailw, passw)
+						
+		print("Login succefful in {}".format(emailw))
+
+		try:
+			for l in range(0, lenI(emails_to)):
+				email_to_ = emails_to[l]
+				send_email_yahoo(emailw, email_to_)
+				sleep(wait)
+						
+		except Exception as error:
+			print("Error on email create or send, because {}".format(error))
+					
+	except Exception as e:
+		print("Fail to login in {} because {}".format(emailw, e))
+		pass
+				
+def open_text():
+	try:
+		print('Opennig the message file...')
+		message = open('Tools/Email_Spam_Tool/text_message.txt', mode='r', encoding='utf-8')
+		body = str(message)
+		print('Done...')
+		
+	except Exception as e:
+		print('No text message on path, do you want to conitue?')
+		awnser = input('y/N: ')
+		
+		if awnser == 'y' or awnser == 'Y':
+			pass
+			
+		elif awnser == '' or awnser == 'n' or awnser == 'N':
+			sys.exit(0)
+			
+		else:
+			print('Invalid awnser.')
+			sys.exit(0)
 
 def send_email_rambler(emaila, email_to):
 	global rand
@@ -98,7 +172,6 @@ def send_email_gmail(emaila, email_to):
 			else:
 				print(e)
 
-
 def send_email_yahoo(emaila, email_to):
 	global rand
 	text = msg_create(emaila, email_to, rand, body)
@@ -120,6 +193,18 @@ def send_email_yahoo(emaila, email_to):
 			else:
 				print(e)
 
+def verify_domain(emailw):
+	if emailw.find("rambler") >= 0 or emailw.find("myrambler") >= 0 or emailw.find("ro.ru") >= 0:
+		return "rambler"
+
+	elif emailw.find("gmail") >= 0:
+		return "gmail"
+
+	elif emailw.find("yahoo") >= 0:
+		return "yahoo"
+
+	else:
+		return False
 
 def login():					#Login Function
 	global s_rambler
@@ -127,7 +212,9 @@ def login():					#Login Function
 	global s_yahoo
 	global emailt_to_
 	global emailw
+	global passw
 	global running
+	global wait
 
 	print("Starting the login and sent phase...\n")
 	try:
@@ -136,91 +223,26 @@ def login():					#Login Function
 				emailw = emails[i]
 				passw = passwords[i]
 				
-
 				wait = randint(5,7)											#Generate a random number (in between 5 and 7) to wait before do something (help agaisnt spam detect)
 				
-				
-				if emailw.find("rambler") >= 0 or emailw.find("myrambler") >= 0 or emailw.find("ro.ru") >= 0:	#Verify rambler emails domains (i think has more than that)
-					try:
-						sleep(wait)											#Wait the wait time
-						s_rambler.connect(host='smtp.rambler.ru', port=587)
-						s_rambler.ehlo()
-						s_rambler.starttls()
-						s_rambler.ehlo()
-						s_rambler.login(emailw, passw)						#Try to login
-						print("Login succefful in {}".format(emailw))		#If login sucefull print this
-						
-						try:
-							for j in range(0, len(emails_to)):				#If login sucefful try to send the email
-								email_to_ = emails_to[j]
-								send_email_rambler(emailw, email_to_)
-								sleep(wait)									#After send (or not) wait the wait time again
-								
-						except Exception as error:
-							print("Error on email create or send, because: {}".format(error))
-							
+				domain = verify_domain(emailw)
 
-					except Exception as e:
-						print("Fail on login in {} because {}".format(emailw, e))	#If login fails print that and continue
+				if domain == "rambler":	#Verify rambler emails domains (i think has more than that)
+					login_rambler()
 						
-						
-				elif emailw.find("gmail") >= 0:								#Verify gmail domain
-					try:
-						sleep(wait)											#Same thing than rambler
-						s_gmail.connect(host='smtp.gmail.com', port=587)
-						s_gmail.ehlo()
-						s_gmail.starttls()
-						s_gmail.ehlo()
-						s_gmail.login(emailw, passw)
-
-						print("Login succefful in {}".format(emailw))
-						
-						try:
-							for k in range(0, len(emails_to)):
-								email_to_ = emails_to[k]
-								send_email_gmail(emailw, email_to_)
-								sleep(wait)
-						except Exception as error:
-							print("Error on email create or send, because: {}".format(error))
-								
-
-					except Exception as e:
-						print("Fail on login in {} because {}".format(emailw, e))
-						pass
-						
+				elif domain == "gmail":								#Verify gmail domain
+					login_gmail()
 				
-				elif emailw.find("yahoo") >= 0:
-					try:
-						sleep(wait)
-						s_yahoo.connect(host="smtp.mail.yahoo.com", port=587)
-						s_yahoo.ehlo()
-						s_yahoo.starttls()
-						s_yahoo.ehlo()
-						s_yahoo.login(emailw, passw)
-						
-						print("Login succefful in {}".format(emailw))
-						
-						try:
-							for l in range(0, lenI(emails_to)):
-								email_to_ = emails_to[l]
-								send_email_yahoo(emailw, email_to_)
-								sleep(wait)
-						
-						except Exception as error:
-							print("Error on email create or send, because {}".format(error))
-					
-					except Exception as e:
-						print("Fail to login in {} because {}".format(emailw, e))
-						pass
-				
-						
-				else:
+				elif domain == "yahoo":
+					login_yahoo()
+
+				elif domain == False:
 					print("Unknow email service. Jumping it")
+					pass
 					
 	except KeyboardInterrupt:
 		running = False
 		sys.exit(0)
-
 
 def get_contacts():				#Get the emails "To" and  "From" in differents .txt files
 	global emails
@@ -275,7 +297,23 @@ def get_contacts():				#Get the emails "To" and  "From" in differents .txt files
 	except Exception as error:
 		print("The file doesn't exist: {}".format(error))
 		sys.exit(0)
-	login()
 
+	return True
 
-get_contacts()
+def main():
+	open_text()
+	create_cgmail()
+	create_crambler()
+	create_cyahoo
+	contacts_states = get_contacts()
+
+	try:
+		if contacts_states == True:
+			login()
+		else:
+			print("A error on get contacts step make the program stop. Please make sure to check all files again.")
+			sys.exit(0)
+	except Exception as e:
+		print("Error {}. Exiting...".format(e))
+		sys.exit(0)
+main()

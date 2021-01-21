@@ -103,7 +103,7 @@ def login_yahoo():
 		print("Login succefful in {}".format(emailw))
 
 		try:
-			for l in range(0, lenI(emails_to)):
+			for l in range(0, len(emails_to)):
 				email_to_ = emails_to[l]
 				send_email_yahoo(emailw, email_to_)
 				sleep(wait)
@@ -116,13 +116,14 @@ def login_yahoo():
 		pass
 				
 def open_text():
+	global body
 	try:
 		print('Opennig the message file...')
 		message = open('Tools/Email_Spam_Tool/text_message.txt', mode='r', encoding='utf-8')
 		body = str(message)
 		print('Done...')
 		
-	except Exception as e:
+	except Exception:
 		print('No text message on path, do you want to conitue?')
 		awnser = input('y/N: ')
 		
@@ -144,6 +145,7 @@ def send_email_rambler(emaila, email_to):
 	if emaila.find('rambler') >= 0 or emaila.find("myrambler") >= 0 or emaila.find("ro.ru") >= 0:
 		try:
 			for a in range(0, 500):
+				a = a														#Do nothing just to remove pylint "Unsed Variable"
 				s_rambler.sendmail(emaila, email_to, text)					#Try to send the email  (500 per email)
 				rand = rand + 1
 		except Exception as e:
@@ -162,6 +164,7 @@ def send_email_gmail(emaila, email_to):
 	if emaila.find('gmail') >= 0:
 		try:
 			for a in range(0, 500):
+				a = a													#Do nothing just to remove pylint "Unsed Variable"
 				s_gmail.sendmail(emaila, email_to, text)				#Try to send the email  (500 per email)
 				rand = rand + 1
 		except Exception as e:
@@ -180,7 +183,8 @@ def send_email_yahoo(emaila, email_to):
 	if emaila.find('yahoo') >= 0:
 		try:
 			for a in range(0, 500):
-				s_yahoo.sendmail(emaila, emailto, text)
+				a = a														#Do nothing just to remove pylint "Unsed Variable"
+				s_yahoo.sendmail(emaila, email_to, text)
 				rand = rand + 1
 			
 		except Exception as e:
@@ -210,7 +214,6 @@ def login():					#Login Function
 	global s_rambler
 	global s_gmail
 	global s_yahoo
-	global emailt_to_
 	global emailw
 	global passw
 	global running
@@ -248,57 +251,81 @@ def get_contacts():				#Get the emails "To" and  "From" in differents .txt files
 	global emails
 	global emails_to
 	global passwords
-	
 
 	print('Collecting "From" Emails and Passwords...\n')
-	
+
 
 	emails = []
 	passwords = []
 	emails_to = []
-	
-	
+
 	try:
 		with open("Tools/Email_Spam_Tool/email_list.txt", mode='r', encoding='utf-8') as first:
 			for email in first:
-				emails.append(email.split()[0])
-				passwords.append(email.split()[1])
-
-				act_email = email.split()[0]
-
-				if act_email.find("gmail") >= 0:
-					print("Gmail account added")
-
-				elif act_email.find("rambler") >= 0 or act_email.find("ro.ru") >= 0:
-					print("Rambler account added")
-				
-				elif act_email.find("yahoo") >= 0:
-					print("Yahoo account added")
-				
+				if email == "":
+					input("There are no emails to log in...")
+					return False
 				else:
-					print("Unknow email service.")
+					act_email = email.split()[0]
+
+					if act_email.find("gmail") >= 0:
+						print("Gmail account added")
+
+						emails.append(email.split()[0])
+						passwords.append(email.split()[1])
+
+					elif act_email.find("rambler") >= 0 or act_email.find("ro.ru") >= 0:
+						print("Rambler account added")
+
+						emails.append(email.split()[0])
+						passwords.append(email.split()[1])
+					
+					elif act_email.find("yahoo") >= 0:
+						print("Yahoo account added")
+
+						emails.append(email.split()[0])
+						passwords.append(email.split()[1])
+					
+					else:
+						print("Unknow email service... Jumping")
+		if len(emails) > 0:
+			x = 0                #Do nothing on a cool way :sunglasses:
+			x = x
+		else:
+			print("There are no 'Emails from' on the list.")
+			return False
 
 	except Exception as error:
 		print("The file doesn't exist: {}".format(error))
-		sys.exit(0)
+		return False
 
 
 	print('Collecting "To" Emails...')
-	
+
 
 	try:
 		with open("Tools/Email_Spam_Tool/emails_to_list.txt", mode='r', encoding='utf-8') as second:
 			for emaill in second:
-				emails_to.append(emaill.split()[0])
-				print("{} has added!".format(email))
-				
-		print("Collection done...\n")
+
+				if emaill == "":
+					input("There are no emails spam...")
+					return False
+
+				else:
+					emails_to.append(emaill.split()[0])
+					print("{} has added!".format(emaill))
+
+		if len(emails_to) > 0:
+			print("Collection done...\n")
+			return True
+
+		else:
+			print("There are no 'Emails To' on the list.")
+			return False
 
 	except Exception as error:
 		print("The file doesn't exist: {}".format(error))
-		sys.exit(0)
-
-	return True
+		return False
 
 def main():
 	open_text()
@@ -316,4 +343,5 @@ def main():
 	except Exception as e:
 		print("Error {}. Exiting...".format(e))
 		sys.exit(0)
+
 main()

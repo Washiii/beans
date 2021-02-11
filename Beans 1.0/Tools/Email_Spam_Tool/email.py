@@ -1,12 +1,12 @@
-############################################################################################
-#																						   #
+################################################################################################
+#											       #										   #
 #	This code is FREE to use and change at any moment, this code has no CopyRights and     #
 #	anything like that, the only thing that i ask you is to report any erros on my github  #
 #	https://github.com/Washiii/beans/issues/new if you donn't wanna report it on the       #
 #	surface web you can send me a email on pr0t_n0fg4nn@secmail.com talking about the      #
 #	error (and do note use my on tool against me xD). Enjoy the code :)                    #
-#																						   #
-############################################################################################
+#											       #										   #
+################################################################################################
 
 import smtplib, ssl
 import sys
@@ -19,12 +19,12 @@ from Tools.Email_Spam_Tool.msg_create import msg_create
 def create_private_server_connection(host, port)
 
 	##########################################################################
-	#																		 #
-	#	Create a connection with a private server (if the user wants to)     #
+	#									 #
+	#	Create a connection with a private server (if the user wants to) #
 	#   Any error on this part is handled and logged. So if you have any     #
-	#	problems please submit a issue. (or try to fix for yourself and      #
+	#	problems please submit a issue. (or try to fix for yourself and  #
 	#   contribute)                                                          #
-	# 																		 #
+	# 									 #
 	##########################################################################
 
 	global s_conneciton
@@ -88,14 +88,14 @@ def create_preset_server_connection()
 
 def login(server, email, password):
 
-	##########################################################################
-	#																		 #
-	#	Try to log in on the gmail, rambler and private server (if exist).   #
-	#   Any error on this part is handled and logged. So if you have any     #
-	#	problems please submit a issue. (or try to fix for yourself and      #
-	#   contribute)                                                          #
-	# 																		 #
-	##########################################################################
+	###########################################################################
+	#									  #
+	#	Try to log in on the gmail, rambler and private server (if exist).#
+	#   Any error on this part is handled and logged. So if you have any      #
+	#	problems please submit a issue. (or try to fix for yourself and   #
+	#   contribute)                                                           #
+	# 									  #
+	###########################################################################
 
 	if server == "gmail":
 		if email_fail[email]:

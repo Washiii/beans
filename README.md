@@ -1,5 +1,5 @@
 # Beans
-Some tools i've made to pas the time
+Some tools i've made to pass the time
 
 
 ## Usage

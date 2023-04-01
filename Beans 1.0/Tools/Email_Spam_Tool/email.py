@@ -16,7 +16,7 @@ from time import sleep
 
 from Tools.Email_Spam_Tool.msg_create import msg_create
 
-def create_private_server_connection(host, port)
+def create_private_server_connection(host, port):
 
 	##########################################################################
 	#									 #
@@ -43,7 +43,7 @@ def create_private_server_connection(host, port)
 		print("An error on SMTP connection with the private server. Quiting.")
 		sys.exit(error)
 
-def create_preset_server_connection()
+def create_preset_server_connection():
 	global s_rambler
 	global s_gmail
 

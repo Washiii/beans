@@ -6,19 +6,22 @@ All the files need to be in the same path.
 
 in case of errors please send it to me :)
 
-If you want to put emails in ```email_list.txt``` you'll need toseparate the email and password using a space. One email and pass for each line.
+If you want to put emails in ```email_list.txt``` you'll need to separate the email and password using a space. One email and pass for each line.
 
-The ```emails_to_list.txt``` are your victim email. One email for each line.
+The ```emails_to_list.txt``` is your victim email. One email for each line.
 
 Your spam message need to be on ```text_message.txt``` file. (only plain text)
 
-If you don't want to attach documents or images on your message comment all the lines starting on ```16 to 34``` on the ```msg_create.py``` file
+If you don't want to attach documents or images on your message comment all the lines starting on ```16 to 34``` on the ```msg_create.py``` file.
 
 Your email "Title" need to be in ```msg['Subject']``` on the ```msg_create.py``` file ```(line 13)```
-the ```rand``` variable are a counter, if you want to remove it just exclude the ```%s``` and the ```%(rand)``` on subject
+the ```rand``` variable is a counter, if you want to remove it just exclude the ```%s``` and the ```%(rand)``` on subject
 
 
 For now i have add only the gmail, rambler (russian email service) and yahoo servers but if you want you can add anyone. send me a pm if you do :D
+
+1.3.1 News -
+	Fixed some typo, was learning english at the time, it may still be broken :)
 
 
 1.3 News -

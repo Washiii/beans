@@ -21,7 +21,7 @@ def msg_create(emailb, email_to, rand, body):
 				part.set_payload(attachment.read())
 				encoders.encode_base64(part)						#Encode the image
 				part.add_header(
-					"Content-Dsposition",
+					"Content-Disposition",
 					f"attachment; filename= {filename[i]}",
 				)
 				msg.attach(part)									#Attach the image
